@@ -118,6 +118,7 @@ def get_list_Future_Vacations(request):
     return Response(list_future_vacaciones)
      
     #GET VACACIONES AGENDADAS POR TRABAJADOR 
+
 @api_view(['GET']) 
 def get_Trabajador_Vacations(request, id):
     return_vacaciones=list()
@@ -135,7 +136,9 @@ def get_Trabajador_Vacations(request, id):
 
 @api_view(['POST'])
 def post_Vacaciones(request):
+
     serializer = VacacionesSerializer(data=request.data)
+
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
