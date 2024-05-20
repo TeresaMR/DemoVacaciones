@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status 
 
 from .models import Trabajadores, Vacaciones, Fechas_Importantes
-from .serializer import TrabajadorSerializer,VacacionesSerializer, TrabajadorDiasVacacionesSerializer, FechasImportantesSerializer
+from .serializer import TrabajadorSerializer,VacacionesSerializer, TrabajadorDiasVacacionesSerializer, FechasImportantesSerializer,FechasOpcionesStringSerializer
 
 
 from rest_framework.response import Response
@@ -208,16 +208,23 @@ def get_fechas_posibles(request,id,diasTomar):
         
        
         for fechaNot in serializer_fecha.data:
-            print(fechaNot)
+            #print(fechaNot)
             
             date_format = "%Y-%m-%d"  # Year-Month-Day format (YYYY-MM-DD)
             fechaInit=datetime.strptime(fechaNot['fechaFinal'],date_format)+timedelta(days=2)
             fechaFin=fechaInit+timedelta(days=diasTomar)
 
-            fecha_vacacion={'fechaInicio':fechaInit.date(), 'fechaFinal':fechaFin.date()}
+            fechaInitString=fechaInit.strftime("%Y-%m-%d")
+            fechaFinString=fechaFin.strftime("%Y-%m-%d")
+            #fecha_vacacion=fechaInit.strftime("%Y-%m-%d"), fechaFin.strftime("%Y-%m-%d")
+        
             #cont += 1
+            fecha_vacacion=""
+            fecha_vacacion+=fechaInitString
+            fecha_vacacion+="/"
+            fecha_vacacion+=fechaFinString
             fechas_posibles.append(fecha_vacacion)
-
+            print(fechas_posibles)
         return Response(fechas_posibles)
 
     else:

@@ -1,4 +1,4 @@
-from .models import Trabajadores, Vacaciones, Fechas_Importantes
+from .models import Trabajadores, Vacaciones, Fechas_Importantes,Fechas_Recomendadas
 from rest_framework import serializers
 
 
@@ -28,3 +28,8 @@ class FechasOpcionesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Fechas_Importantes
         fields = ['fechaInicio','fechaFinal']
+
+class FechasOpcionesStringSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Fechas_Recomendadas
+        fields = ['fecha']

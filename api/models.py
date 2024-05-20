@@ -33,3 +33,9 @@ class Fechas_Importantes(models.Model):
 	
 	def __str__(self):
 		return f"Fechas Importantes: {self.nombreEvento} (Inicio: {self.fechaInicio}, Fin: {self.fechaFinal})"
+						
+class Fechas_Recomendadas(models.Model):
+	fecha 				= models.CharField(max_length=100,verbose_name="fecha inicio vacaciones y fecha final")
+	
+	def __str__(self):
+		return f"Fechas: {self.fecha}"
