@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status 
 
 from .models import Trabajadores, Vacaciones, Fechas_Importantes
-from .serializer import TrabajadorSerializer,VacacionesSerializer, TrabajadorDiasVacacionesSerializer, FechasImportantesSerializer,FechasOpcionesStringSerializer
+from .serializer import TrabajadorSerializer,VacacionesSerializer, TrabajadorDiasVacacionesSerializer, FechasImportantesSerializer,FechasOpcionesStringSerializer, VacacionesSerializerWXO
 
 
 from rest_framework.response import Response
@@ -136,14 +136,16 @@ def get_Trabajador_Vacations(request, id):
 
 @api_view(['POST'])
 def post_Vacaciones(request):
-
+    
     serializer = VacacionesSerializer(data=request.data)
-
+    print(serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    else: return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    else: 
+         
+         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+         
 @api_view(['PUT'])
 def update_Vacaciones_Status(id,request):
     try:
@@ -282,8 +284,16 @@ def post_new_Fecha(request):
 		return Response(serializer.data, status=status.HTTP_201_CREATED) 
 	else: return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 	
-
-     
+@api_view(['GET'])
+def delete_fechaImportante(request):
+    try:
+        
+        #Fechas_Importantes.delete(Fechas_Importantes.objects.all())
+        Fechas_Importantes.objects.all().delete()
+        print("Registros limpiados")
+        return Response(status=status.HTTP_201_CREATED) 
+    except: print("Hubo un error al limpiar los regsitros")
+    return Response(status=status.HTTP_400_BAD_REQUEST) 
 
 def delete_all():
     try:

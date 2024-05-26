@@ -18,8 +18,7 @@ class Vacaciones(models.Model):
 	idVacaciones= models.AutoField(primary_key=True)
 	fechaInicio= models.DateField(auto_now_add=False, verbose_name="fecha inicio vacaciones")
 	fechaFinal= models.DateField(auto_now=False, verbose_name="fecha fin vacaciones")
-	aprobado  =models.BooleanField()
-	idTrabajador = models.ForeignKey(Trabajadores, on_delete=models.CASCADE)
+	idTrabajador = models.IntegerField()
 	
 	def __str__(self):
 		return self.title

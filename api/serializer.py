@@ -16,8 +16,12 @@ class TrabajadorDiasVacacionesSerializer(serializers.HyperlinkedModelSerializer)
 class VacacionesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Vacaciones
-        fields = ['idVacaciones','fechaInicio','fechaFinal']
+        fields = ['fechaInicio','fechaFinal','idTrabajador']
 
+class VacacionesSerializerWXO(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Vacaciones
+        fields = ['fechaInicio','fechaFinal','idTrabajador']
 
 class FechasImportantesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
