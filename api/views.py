@@ -193,7 +193,7 @@ def borrar_vacacion(id):
 @api_view(['GET'])
 def get_fechas_posibles(request,id,diasTomar):
    
-    fecha_vacacion=dict() 
+    
    
     fechas=Fechas_Importantes.objects.all() 
     fechas_posibles=list()
@@ -211,29 +211,42 @@ def get_fechas_posibles(request,id,diasTomar):
     diasVacaciones=return_trabajador.diasVacaciones
     if diasVacaciones>=0  and diasTomar<=diasVacaciones:
         
-       
+        print(serializer_fecha.data)
         for fechaNot in serializer_fecha.data:
-            #print(fechaNot)
+           # date_format = "%Y-%m-%d"  
+           # fechaInit=datetime.strptime(fechaNot['fechaFinal'],date_format)+timedelta(days=2)
             
-            date_format = "%Y-%m-%d"  # Year-Month-Day format (YYYY-MM-DD)
-            fechaInit=datetime.strptime(fechaNot['fechaFinal'],date_format)+timedelta(days=2)
-            fechaFin=fechaInit+timedelta(days=diasTomar)
+           # fechaFin=fechaInit+timedelta(days=diasTomar)
+           # fecha_vacacion['fechaInicio']=fechaInit
+           # fecha_vacacion['fechaFinal']=fechaFin
 
-            fechaInitString=fechaInit.strftime("%Y-%m-%d")
-            fechaFinString=fechaFin.strftime("%Y-%m-%d")
-            #fecha_vacacion=fechaInit.strftime("%Y-%m-%d"), fechaFin.strftime("%Y-%m-%d")
-        
-            #cont += 1
-            fecha_vacacion=""
-            fecha_vacacion+=fechaInitString
-            fecha_vacacion+="/"
-            fecha_vacacion+=fechaFinString
+            fecha_vacacion=dict() 
+
+            fecha_format = "%Y-%m-%d"  # Formato de fecha para strptime y strftime
+            
+            # Extraer la fecha final sin hora
+            fechainit_sin_hora = datetime.strptime(fechaNot['fechaFinal'], fecha_format).replace(hour=0, minute=0, second=0, microsecond=0)
+
+            # Calcular la fecha final sin hora
+            fechaFin_sin_hora = fechainit_sin_hora + timedelta(days=diasTomar)
+
+            fecha_vacacion['fechaInicio'] = fechainit_sin_hora.strftime(fecha_format)
+            fecha_vacacion['fechaFinal'] = fechaFin_sin_hora.strftime(fecha_format)
+                
             fechas_posibles.append(fecha_vacacion)
-            print(fechas_posibles)
-        return Response(fechas_posibles)
+           
+        #serializer=FechasOpcionesSerializer(fechas_posibles)
 
+        
+        
+        
+        return Response(fechas_posibles)
     else:
         return Response("No tienes vacaciones suficientes")
+            
+    #return Response(serializer_fecha)
+
+    
 
      
 
